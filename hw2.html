@@ -284,14 +284,16 @@
       }
     }
 
+    // Custom helper to remove whitespace and commas
+    function sanitize(input) {
+      return input.trim().split(",").join("");
+    }
+
     // To return a formatted conversion string
     // Currency Format regex string within replace() is from https://blog.abelotech.com/posts/number-currency-formatting-javascript/
     function calculateExchangeRate(amountToExchange, exchangeRate, unit) {
-      amountToExchange = amountToExchange.trim().split(",").join(""); // Ignore whitespace and commas
-      console.log('amountToExchange is:' + '"' + amountToExchange + '"');
-      if (amountToExchange==Infinity) return "You're beyond money. Who cares?";
-      else if (amountToExchange==-Infinity) return "You're currently a black hole. You should get that looked at.";
-      else if (amountToExchange && exchangeRate && !isNaN(amountToExchange) && !isNaN(exchangeRate)) return (parseFloat(amountToExchange) * parseFloat(exchangeRate)).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + " " + unit;
+      amountToExchange = sanitize(amountToExchange);
+      if (amountToExchange && exchangeRate && !isNaN(amountToExchange) && !isNaN(exchangeRate)) return (parseFloat(amountToExchange) * parseFloat(exchangeRate)).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + " " + unit;
       return '';
     }
 
@@ -311,12 +313,15 @@
 
     $("#extra-credit-form").keyup(function(event) {
       input_selector = $("#rate-to-exchange");
-      input_value = input_selector.val().trim(); // Ignore whitespace
+      input_value = input_selector.val();
+      input_length = input_value.length;
       decimal_location = input_value.lastIndexOf('.');
+      decimal_places = input_length - decimal_location;
+
       input_selector.attr('class','');
 
       // No whitespace, no numbers bigger than 1 trillion, no negative numbers, and no more than 2 decimal places
-      if (isNaN(input_value.split(",").join("")) || input_value > 1e12 || input_value < 0 || (decimal_location != -1 && input_value.length - decimal_location) > 3) {
+      if (isNaN(sanitize(input_value)) || input_value > 1e12 || input_value < 0 || decimal_location != -1 && decimal_places > 3) {
         input_selector.attr('class', 'error');
       } else {
         input_selector.attr('class', 'selected');
