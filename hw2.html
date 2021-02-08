@@ -289,6 +289,18 @@
       return input.trim().split(",").join("");
     }
 
+    function isValidNumber(input) {
+      input_length = input.length;
+      decimal_location = input.lastIndexOf('.');
+      decimal_places = input_length - decimal_location;
+
+      if (input < 1e12 && input > 0 || input== '') {
+        if (decimal_location != -1 && decimal_places > 3) return false;
+        return true;
+      }
+      return false;
+    }
+
     // To return a formatted conversion string
     // Currency Format regex string within replace() is from https://blog.abelotech.com/posts/number-currency-formatting-javascript/
     function calculateExchangeRate(amountToExchange, exchangeRate, unit) {
@@ -313,15 +325,10 @@
 
     $("#extra-credit-form").keyup(function(event) {
       input_selector = $("#rate-to-exchange");
-      input_value = input_selector.val();
-      input_length = input_value.length;
-      decimal_location = input_value.lastIndexOf('.');
-      decimal_places = input_length - decimal_location;
-
+      input_value = sanitize(input_selector.val());
       input_selector.attr('class','');
 
-      // No whitespace, no numbers bigger than 1 trillion, no negative numbers, and no more than 2 decimal places
-      if (isNaN(sanitize(input_value)) || input_value > 1e12 || input_value < 0 || decimal_location != -1 && decimal_places > 3) {
+      if (isNaN(input_value) || !isValidNumber(input_value)) {
         input_selector.attr('class', 'error');
       } else {
         input_selector.attr('class', 'selected');
