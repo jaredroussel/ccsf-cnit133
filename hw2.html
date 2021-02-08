@@ -22,13 +22,13 @@
     .error { color: red; font-weight: bold; }
     section.part { min-height: 50vh; }
     #extra-credit-form { margin-top: 2rem; }
+    #exchange-rate-rate { width: 5rem; }
     #rate-to-exchange { width: 5rem; }
-    #foreign-exchange-rates { min-width: 50%; }
-    #foreign-exchange-rates th, #foreign-exchange-rates td { text-align: left; }
+    #foreign-exchange-rates th, #foreign-exchange-rates td { text-align: left; min-width: 10rem; }
     #foreign-exchange-rates-title { text-align: center !important; background-color: #000; color: #fff; margin-bottom: 1rem; border-radius: .25em .25em 0 0; }
     input.selected { background-color: #CCE5D3; }
     input.error { font-weight: normal; background-color: #FFDFDF; }
-    .exchange-rate-value { color: green; }
+    .exchange-rate-value { color: green; font-weight: bold; }
     </style>
     <script>
     // Using jQuery event handler method
@@ -180,7 +180,7 @@
                   </tr>
                   <tr>
                     <th>Currency</th>
-                    <th>Rate (USD)</th>
+                    <th id="foreign-exchange-thead-rate">Rate (USD)</th>
                     <th>Value</th>
                   </tr>
                 </thead>
@@ -278,16 +278,18 @@
         exchange_rate_value = calculateExchangeRate(amount_to_exchange, exchange_rates[rate].exchangeRate, exchange_rates[rate].abbreviation);
         render_selector.append(`<tr id="exchange-rate-${exchange_rates[rate].title}">
             <td class="exchange-rate-title">${exchange_rates[rate].title}</td>
-            <td class="exchange-rate-rate"><input type="text" value="${exchange_rates[rate].exchangeRate}" disabled></td>
+            <td class="exchange-rate-rate"><input id="exchange-rate-rate" type="text" value="${exchange_rates[rate].exchangeRate}" disabled></td>
             <td class="exchange-rate-value">${exchange_rate_value}</td>
           </tr>`);
       }
     }
 
+    // To return a formatted conversion string
+    // Currency Format regex string within replace() is from https://blog.abelotech.com/posts/number-currency-formatting-javascript/
     function calculateExchangeRate(amountToExchange, exchangeRate, unit) {
       if (amountToExchange==Infinity) return "You're beyond money. Who cares?";
       else if (amountToExchange==-Infinity) return "You're currently a black hole. You should get that looked at.";
-      else if (amountToExchange && exchangeRate && !isNaN(amountToExchange) && !isNaN(exchangeRate)) return (parseFloat(amountToExchange) * parseFloat(exchangeRate)).toFixed(2) + " " + unit;
+      else if (amountToExchange && exchangeRate && !isNaN(amountToExchange) && !isNaN(exchangeRate)) return (parseFloat(amountToExchange) * parseFloat(exchangeRate)).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + " " + unit;
       return '';
     }
 
