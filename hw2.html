@@ -26,6 +26,7 @@
     #foreign-exchange-rates th, #foreign-exchange-rates td { text-align: left; }
     #foreign-exchange-rates-title { text-align: center !important; background-color: #000; color: #fff; margin-bottom: 1rem; border-radius: .25em .25em 0 0; }
     input.selected { background-color: #CCE5D3; }
+    input.error { font-weight: normal; background-color: #FFDFDF; }
     .exchange-rate-value { color: green; }
     </style>
     <script>
@@ -194,7 +195,7 @@
                 <form id="extra-credit-form">
                   <div>
                     <label for="extra-credit-number-1">Enter an amount to convert in USD $</label>
-                    <input type="text" id="rate-to-exchange" name="rate_to_exchange" title="U.S. Dollar Amount" maxlength="5">
+                    <input type="text" id="rate-to-exchange" name="rate_to_exchange" title="U.S. Dollar Amount">
                   </div>
                 </form>
               </fieldset>
@@ -216,7 +217,7 @@
       number4_int = parseInt(number4);
       number5_int = parseInt(number5);
 
-      // We're just relying on integer arithmetic for float/long values
+      // We're just relying on integer arithmetic for float/long values instead of doing isNaN() checks
       if (Number.isInteger(number1_int) && Number.isInteger(number2_int) && Number.isInteger(number3_int) && Number.isInteger(number4_int) && Number.isInteger(number5_int)) {
           let numbers = new Array(number1, number2, number3, number4, number5);
           var negative_total = 0, zero_total = 0, positive_total = 0;
@@ -283,7 +284,9 @@
     }
 
     function calculateExchangeRate(amountToExchange, exchangeRate, unit) {
-      if (amountToExchange && exchangeRate) return (parseFloat(amountToExchange) * parseFloat(exchangeRate)).toFixed(2) + " " + unit;
+      if (amountToExchange==Infinity) return "You're beyond money. Who cares?";
+      else if (amountToExchange==-Infinity) return "You're currently a black hole. You should get that looked at.";
+      else if (amountToExchange && exchangeRate && !isNaN(amountToExchange) && !isNaN(exchangeRate)) return (parseFloat(amountToExchange) * parseFloat(exchangeRate)).toFixed(2) + " " + unit;
       return '';
     }
 
@@ -295,12 +298,15 @@
       $(this).attr('class', '');
     });
 
-    $("#extra-credit-form").change(function(event) {
-        getExchangeRates();
-    });
-
     $("#extra-credit-form").keyup(function(event) {
+      input_selector = $("#rate-to-exchange");
+      input_selector.attr('class','');
+      if (isNaN(input_selector.val())) {
+        input_selector.attr('class', 'error');
+      } else {
+        input_selector.attr('class', 'selected');
         getExchangeRates();
+      }
     });
 
     </script>
