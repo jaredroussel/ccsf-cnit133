@@ -312,13 +312,16 @@
     $("#extra-credit-form").keyup(function(event) {
       input_selector = $("#rate-to-exchange");
       input_value = input_selector.val().trim(); // Ignore whitespace
+      decimal_location = input_value.lastIndexOf('.');
       input_selector.attr('class','');
-      if (isNaN(input_value.split(",").join(""))) {
+
+      // No whitespace, no numbers bigger than 1 trillion, no negative numbers, and no more than 2 decimal places
+      if (isNaN(input_value.split(",").join("")) || input_value > 1e12 || input_value < 0 || (decimal_location != -1 && input_value.length - decimal_location) > 3) {
         input_selector.attr('class', 'error');
       } else {
         input_selector.attr('class', 'selected');
+        getExchangeRates();
       }
-      getExchangeRates();
     });
 
     </script>
