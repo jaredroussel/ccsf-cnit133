@@ -295,7 +295,7 @@
       decimal_location = input.lastIndexOf('.');
       decimal_places = input_length - decimal_location;
 
-      if (input < 1e12 && input > 0 || input== '') {
+      if (input < 1e12 && input >= 0 || input== '') {
         if (decimal_location != -1 && decimal_places > 3) return false;
         return true;
       }
