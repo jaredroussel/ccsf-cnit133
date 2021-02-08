@@ -4,6 +4,10 @@
 
 h1 { font-family: 'Bodoni Moda'; font-weight: 700; text-transform: uppercase; }
 .homework { margin: 2.5rem 0; }
+.part { margin: 2rem 0; }
+
+/* Forms */
+label { font-weight: bold; margin-bottom: .5rem; }
 
 /* Homework 1 */
 #homework-1 header { position: fixed; min-width: 100%; }
