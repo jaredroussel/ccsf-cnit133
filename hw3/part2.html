@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Homework assignment 3 for CNIT 133 (JavaScript, jQuery, Ajax) at City College of San Francisco instructed by Claudia Da Silva">
+    <title>Jared Roussel - CNIT 133 - CCSF - Homework 3 - Part 2</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@700&display=swap" rel="stylesheet">
+    <link href="../css/cnit133.css" rel="stylesheet">
+    <style>
+    #homework-results { margin: 2.5rem 0; }
+    #must-retake { display: none; }
+    #error-results { padding: 1rem 0; color: red; display: none; }
+    #hw-3-part-2-form input[type=number] { margin-bottom: 1rem; width: 5rem; }
+    td.amount { text-align: right; }
+    </style>
+    <script>
+
+    $(function() {
+      $("#salesperson-name").tooltip({
+        position: { my: "left center", at: "right center" }
+      });
+
+      $("#hw-3-part-2-form").submit(function(event) {
+        event.preventDefault();
+        var error = null;
+        salespersonName = $("#salesperson-name").val();
+
+        if (!salespersonName) {
+          error = "Please enter a salesperson's name.";
+        }
+
+        let item1Price = 20.99;
+        let item2Price = 12.75;
+        let item3Price = 9.95;
+        let item4Price = 35.89;
+
+        var numItem1 = $("#item-1").val();
+        var numItem2 = $("#item-2").val();
+        var numItem3 = $("#item-3").val();
+        var numItem4 = $("#item-4").val();
+
+        if (!isNaN(numItem1) && !isNaN(numItem2) && !isNaN(numItem3) && !isNaN(numItem4) &&
+            numItem1 >= 0 && numItem2 >= 0 && numItem3 >= 0 && numItem4 >= 0 &&
+            numItem1.length > 0 && numItem2.length > 0 && numItem3.length > 0 && numItem4.length > 0) {
+
+              let totalItem1 = (parseInt(numItem1) * item1Price).toFixed(2);
+              let totalItem2 = (parseInt(numItem2) * item2Price).toFixed(2);
+              let totalItem3 = (parseInt(numItem3) * item3Price).toFixed(2);
+              let totalItem4 = (parseInt(numItem4) * item4Price).toFixed(2);
+              let totalSales = (parseFloat(totalItem1) + parseFloat(totalItem2) + parseFloat(totalItem3) + parseFloat(totalItem4)).toFixed(2);
+              let totalCommission = parseFloat(250.00 + (totalSales * .09)).toFixed(2);
+
+              $("#item-1-sold").text(numItem1);
+              $("#item-1-total").text("$" + totalItem1);
+
+              $("#item-2-sold").text(numItem2);
+              $("#item-2-total").text("$" + totalItem2);
+
+              $("#item-3-sold").text(numItem3);
+              $("#item-3-total").text("$" + totalItem3);
+
+              $("#item-4-sold").text(numItem4);
+              $("#item-4-total").text("$" + totalItem4);
+
+              $("#total-amount-sold").text("$" + totalSales);
+              $("#total-weekly-earnings").text("$" + totalCommission);
+
+        } else {
+          error = "Enter valid numbers (equal to or greater than zero) for the number of items.";
+        }
+
+        if (error) {
+            $("#error-results").text(error);
+            $("#error-results").show();
+        } else {
+          $("#error-results").hide();
+        }
+
+      });
+    })
+    </script>
+</head>
+<body id="homework-2">
+    <header>
+        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Jared Roussel - CNIT 133</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Homework Assignments
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="index.html">Homework 1 (Home)</a></li>
+                      <li><a class="dropdown-item" href="hw2.html">Homework 2</a></li>
+                      <li><a class="dropdown-item" href="hw3.html">Homework 3</a></li>
+                      <li><a class="dropdown-item" href="hw4.html">Homework 4</a></li>
+                      <li><a class="dropdown-item" href="hw5.html">Homework 5</a></li>
+                      <li><a class="dropdown-item" href="hw6.html">Homework 6</a></li>
+                      <li><a class="dropdown-item" href="hw7.html">Homework 7</a></li>
+                      <li><a class="dropdown-item" href="hw8.html">Homework 8</a></li>
+                    </ul>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="homework">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../hw3.html">Part 1</a></li>
+            <li class="breadcrumb-item" aria-current="page">Part 2</li>
+            <li class="breadcrumb-item active"><a href="part3.html">Part 3</a></li>
+          </ol>
+          <h1>Homework 3</h1>
+          <h2>Part 2: Commission Calculator</h2>
+          <fieldset>
+            <form id="hw-3-part-2-form">
+              <div>
+                <label for="salesperson-name">Salesperson</label>
+                <input type="text" id="salesperson-name" title="Please make sure that the salesperson's name is spelled correctly">
+              </div>
+              <h2>Input the number of items sold for each item number:</h2>
+              <div>
+                <label for="item-1">Item 1:</label>
+                <input type="text" id="item-1">
+              </div>
+              <div>
+                <label for="item-2">Item 2:</label>
+                <input type="text" id="item-2">
+              </div>
+              <div>
+                <label for="item-3">Item 3:</label>
+                <input type="text" id="item-3">
+              </div>
+              <div>
+                <label for="item-4">Item 4:</label>
+                <input type="text" id="item-4">
+              </div>
+              <input type="submit">
+              <input type="reset">
+            </form>
+            <div id="error-results"></div>
+          </fieldset>
+
+          <table id="homework-results">
+            <thead>
+              <tr>
+                <th>Item #</th>
+                <th>Price</th>
+                <th>Number Sold</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td id="item-1-price">$20.99</td>
+                <td id="item-1-sold"></td>
+                <td id="item-1-total" class="amount"></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td id="item-2-price">$12.75</td>
+                <td id="item-2-sold"></td>
+                <td id="item-2-total" class="amount"></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td id="item-3-price">$9.95</td>
+                <td id="item-3-sold"></td>
+                <td id="item-3-total" class="amount"></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td id="item-4-price">$35.89</td>
+                <td id="item-4-sold"></td>
+                <td id="item-4-total" class="amount"></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="2">Total Amount Sold</th>
+                <td></td>
+                <td id="total-amount-sold"></td>
+              </tr>
+              <tr>
+                <th colspan="2">Total Weekly Earnings</th>
+                <td></td>
+                <td id="total-weekly-earnings"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Homework assignment 3 for CNIT 133 (JavaScript, jQuery, Ajax) at City College of San Francisco instructed by Claudia Da Silva">
+    <title>Jared Roussel - CNIT 133 - CCSF - Homework 3 - Part 3</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@700&display=swap" rel="stylesheet">
+    <link href="../css/cnit133.css" rel="stylesheet">
+    <style>
+    #homework-results { margin: 2.5rem 0; }
+    #must-retake { display: none; }
+    #error-results { padding: 1rem 0; color: red; display: none; }
+    #hw-3-part-2-form input[type=number] { margin-bottom: 1rem; width: 5rem; }
+    td.amount { text-align: right; }
+    </style>
+    <script>
+
+    $(function() {
+      $("#c-to-f-button").click(function(event) {
+        event.preventDefault();
+        var error = null;
+
+        var temperature = parseFloat($("#temperature").val());
+        let celsiusTemperature = parseInt(fahrenheitToCelsius(temperature));
+
+        $("#result").val(temperature + " F is " + celsiusTemperature + " C");
+
+        if (error) {
+            $("#error-results").text(error);
+            $("#error-results").show();
+        } else {
+          $("#error-results").hide();
+        }
+      });
+
+      $("#f-to-c-button").click(function(event) {
+        event.preventDefault();
+        var error = null;
+
+        var temperature = parseFloat($("#temperature").val());
+        let fahrenheitTemperature = parseInt(celsiusToFahrenheit(temperature));
+
+        $("#result").val(temperature + " C is " + fahrenheitTemperature + " F");
+
+      });
+
+      function celsiusToFahrenheit(c) {
+        return (9.0 * c)/5.0 + 32;
+      }
+
+      function fahrenheitToCelsius(f) {
+        return (5.0 * (f - 32))/9.0;
+      }
+    });
+    </script>
+</head>
+<body id="homework-2">
+    <header>
+        <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Jared Roussel - CNIT 133</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Homework Assignments
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="index.html">Homework 1 (Home)</a></li>
+                      <li><a class="dropdown-item" href="hw2.html">Homework 2</a></li>
+                      <li><a class="dropdown-item" href="hw3.html">Homework 3</a></li>
+                      <li><a class="dropdown-item" href="hw4.html">Homework 4</a></li>
+                      <li><a class="dropdown-item" href="hw5.html">Homework 5</a></li>
+                      <li><a class="dropdown-item" href="hw6.html">Homework 6</a></li>
+                      <li><a class="dropdown-item" href="hw7.html">Homework 7</a></li>
+                      <li><a class="dropdown-item" href="hw8.html">Homework 8</a></li>
+                    </ul>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="homework">
+        <div class="container">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="../hw3.html">Part 1</a></li>
+              <li class="breadcrumb-item"><a href="part2.html">Part 2</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Part 3</li>
+            </ol>
+          </nav>
+          <h1>Homework 3</h1>
+          <h2>Part 3: Temperature Converter</h2>
+          <fieldset>
+            <form id="hw-3-part-3-form">
+              <div>
+                <label for="temperature">Enter Temperature</label>
+                <input type="text" id="temperature">
+              </div>
+              <div>
+                <input id="result" type="text" disabled>
+              </div>
+              <input type="submit" id="c-to-f-button" value="Get Celsius Temperature">
+              <input type="submit" id="f-to-c-button" value="Get Fahrenheit Temperature">
+            </form>
+            <div id="error-results"></div>
+          </fieldset>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,11 +4,80 @@
     <meta charset="UTF-8">
     <meta name="description" content="Homework assignment 3 for CNIT 133 (JavaScript, jQuery, Ajax) at City College of San Francisco instructed by Claudia Da Silva">
     <title>Jared Roussel - CNIT 133 - CCSF - Homework 3</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@700&display=swap" rel="stylesheet">
     <link href="css/cnit133.css" rel="stylesheet">
+    <style>
+    #homework-results { padding: 1rem 0; display: none; }
+    #must-retake { display: none; }
+    #error-results { padding: 1rem 0; color: red; }
+    #hw-3-part-1-form label { display: block; margin-bottom: .5rem; }
+    #hw-3-part-1-form input[type=number] { margin-bottom: 1rem; width: 5rem; }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script>
+
+    $(function() {
+      $("#hw-3-part-1-form").submit(function(event) {
+        event.preventDefault();
+        var homeworkAverageGrade = $("#grade-homework-average").val();
+        var midtermExamGrade = $("#grade-midterm-exam").val();
+        var finalExamGrade = $("#grade-final-exam").val();
+        var participationGrade = $("#grade-participation").val();
+        var error = null;
+
+        if (!isNaN(homeworkAverageGrade) && !isNaN(midtermExamGrade) && !isNaN(finalExamGrade) && !isNaN(participationGrade)) {
+            if (homeworkAverageGrade < 0 || midtermExamGrade < 0 || finalExamGrade < 0 || participationGrade < 0) {
+              error = "Please enter positive integers.";
+            } else {
+              let finalAverage = calculateHomeworkScore(homeworkAverageGrade, midtermExamGrade, finalExamGrade, participationGrade);
+              var letterGrade;
+              var mustRetake = false;
+
+              if (finalAverage >= 90) {
+                letterGrade = 'A';
+              } else if (finalAverage >= 80) {
+                letterGrade = 'B';
+              } else if (finalAverage >= 70) {
+                letterGrade = 'C';
+              } else if (finalAverage >= 60) {
+                letterGrade = 'D';
+                mustRetake = true;
+              } else {
+                letterGrade = 'F';
+                mustRetake = true;
+              }
+
+              if (letterGrade) {
+                if (mustRetake) {
+                  $("#must-retake").show();
+                } else {
+                  $("#must-retake").hide();
+                }
+                $("#error-results").hide();
+                $("#homework-grade").text(letterGrade);
+                $("#homework-results").show();
+              } else {
+                error = "There was invalid input. Enter only integer numbers.";
+              }
+            }
+        }
+        if (error) {
+            $("#homework-results").hide();
+            $("#error-results").text(error);
+            $("#error-results").show();
+        }
+
+      });
+    });
+
+    function calculateHomeworkScore(homeworkAverageGrade, midtermExamGrade, finalExamGrade, participationGrade) {
+      return parseInt(homeworkAverageGrade) * .5 + parseInt(midtermExamGrade) * .2 + parseInt(finalExamGrade) * .2 + parseInt(participationGrade) * .1;
+    }
+
+    </script>
 </head>
 <body id="homework-2">
     <header>
@@ -25,14 +94,14 @@
                         Homework Assignments
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="index.html">Homework 1 (Home)</a></li>
-                        <li><a class="dropdown-item" href="hw2.html">Homework 2</a></li>
-                        <li><a class="dropdown-item" href="hw3.html">Homework 3</a></li>
-                        <li><a class="dropdown-item" href="hw4.html">Homework 4</a></li>
-                        <li><a class="dropdown-item" href="hw5.html">Homework 5</a></li>
-                        <li><a class="dropdown-item" href="hw6.html">Homework 6</a></li>
-                        <li><a class="dropdown-item" href="hw7.html">Homework 7</a></li>
-                        <li><a class="dropdown-item" href="hw8.html">Homework 8</a></li>
+                      <li><a class="dropdown-item" href="index.html">Homework 1 (Home)</a></li>
+                      <li><a class="dropdown-item" href="hw2.html">Homework 2</a></li>
+                      <li><a class="dropdown-item" href="hw3.html">Homework 3</a></li>
+                      <li><a class="dropdown-item" href="hw4.html">Homework 4</a></li>
+                      <li><a class="dropdown-item" href="hw5.html">Homework 5</a></li>
+                      <li><a class="dropdown-item" href="hw6.html">Homework 6</a></li>
+                      <li><a class="dropdown-item" href="hw7.html">Homework 7</a></li>
+                      <li><a class="dropdown-item" href="hw8.html">Homework 8</a></li>
                     </ul>
                     </li>
                 </ul>
@@ -42,8 +111,41 @@
     </header>
     <div class="homework">
         <div class="container">
-           <h1>Homework 3</h1>
-           <p>This content is currently under development.</p>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Part 1</li>
+            <li class="breadcrumb-item"><a href="hw3/part2.html">Part 2</a></li>
+            <li class="breadcrumb-item"><a href="hw3/part3.html">Part 3</a></li>
+          </ol>
+          <h1>Homework 3</h1>
+          <h2>Part 1: Student Grades</h2>
+          <fieldset>
+            <form id="hw-3-part-1-form">
+              <div>
+                <label for="grade-homework-average">Homework Average</label>
+                <input type="number" id="grade-homework-average">
+              </div>
+              <div>
+                <label for="grade-midterm-exam">Mid-Term Exam Score</label>
+                <input type="number" id="grade-midterm-exam">
+              </div>
+              <div>
+                <label for="grade-homework-exam">Final Exam Score</label>
+                <input type="number" id="grade-final-exam">
+              </div>
+              <div>
+                <label for="grade-homework">Participation</label>
+                <input type="number" id="grade-participation">
+              </div>
+              <input type="submit" value="Calculate Score">
+            </form>
+          </fieldset>
+          <div id="homework-results">
+            <hr>
+            <h3>Final homework grade is: <span id="homework-grade"></span></h3>
+            <p id="must-retake">Student must retake the course. &#x1f61e;</p>
+          </div>
+          <div id="error-results">
+          </div>
         </div>
     </div>
 </body>
