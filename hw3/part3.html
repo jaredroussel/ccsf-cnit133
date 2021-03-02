@@ -15,19 +15,27 @@
     #must-retake { display: none; }
     #error-results { padding: 1rem 0; color: red; display: none; }
     #hw-3-part-2-form input[type=number] { margin-bottom: 1rem; width: 5rem; }
+    #result { margin-top: 2rem; }
     td.amount { text-align: right; }
     </style>
     <script>
 
     $(function() {
+
+      var error = null;
+
       $("#c-to-f-button").click(function(event) {
         event.preventDefault();
-        var error = null;
+        error = null;
 
         var temperature = parseFloat($("#temperature").val());
         let celsiusTemperature = parseInt(fahrenheitToCelsius(temperature));
 
-        $("#result").val(temperature + " F is " + celsiusTemperature + " C");
+        if (isNaN(temperature) || isNaN(celsiusTemperature)) {
+          error = "Please enter a valid number.";
+        } else {
+          $("#result").val(temperature + " F is " + celsiusTemperature + " C");
+        }
 
         if (error) {
             $("#error-results").text(error);
@@ -35,18 +43,31 @@
         } else {
           $("#error-results").hide();
         }
+
       });
 
       $("#f-to-c-button").click(function(event) {
         event.preventDefault();
-        var error = null;
-
+        error = null;
         var temperature = parseFloat($("#temperature").val());
         let fahrenheitTemperature = parseInt(celsiusToFahrenheit(temperature));
 
-        $("#result").val(temperature + " C is " + fahrenheitTemperature + " F");
+        if (isNaN(temperature) || isNaN(fahrenheitTemperature)) {
+          error = "Please enter a valid number.";
+        } else {
+            $("#result").val(temperature + " C is " + fahrenheitTemperature + " F");
+        }
+
+        if (error) {
+            $("#error-results").text(error);
+            $("#error-results").show();
+        } else {
+          $("#error-results").hide();
+        }
 
       });
+
+
 
       function celsiusToFahrenheit(c) {
         return (9.0 * c)/5.0 + 32;
@@ -105,13 +126,13 @@
                 <label for="temperature">Enter Temperature</label>
                 <input type="text" id="temperature">
               </div>
-              <div>
-                <input id="result" type="text" disabled>
-              </div>
+              <div id="error-results"></div>
               <input type="submit" id="c-to-f-button" value="Get Celsius Temperature">
               <input type="submit" id="f-to-c-button" value="Get Fahrenheit Temperature">
             </form>
-            <div id="error-results"></div>
+            <div>
+              <input id="result" type="text" disabled>
+            </div>
           </fieldset>
         </div>
     </div>
